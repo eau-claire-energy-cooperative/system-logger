@@ -79,7 +79,7 @@ public class TrayService {
 		
 		try{
 			//setup the console
-			rootLog.addAppender(new ConsoleAppender(new SimpleLayout(),ConsoleAppender.SYSTEM_OUT));
+			//rootLog.addAppender(new ConsoleAppender(new SimpleLayout(),ConsoleAppender.SYSTEM_OUT));
 			rootLog.addAppender(new DailyRollingFileAppender(new PatternLayout("%p %d{DATE} - %m %n"),directory + name + ".log","yyyy-ww"));
 		}
 		catch(Exception e)
