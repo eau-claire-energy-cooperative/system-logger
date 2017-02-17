@@ -17,17 +17,22 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.SimpleLayout;
 
+import com.ecec.rweber.utils.SettingsReader;
+
 public class TrayService {
 	private Logger m_log = null;
+	private SettingsReader m_settings = null;
 	private SystemLogger m_thread = null;
 	
 	//for the gui
 	private TrayIcon m_trayIcon = null;
 	
 	public TrayService(){
+		m_settings = new SettingsReader("resources/config.xml");
+		
 		setupLogger();
 		
-		m_thread = new SystemLogger();
+		m_thread = new SystemLogger(m_settings);
 	}
 	
 	public void run(){
@@ -53,23 +58,37 @@ public class TrayService {
 	}
 	
 	private void setupLogger(){
-		String directory = System.getProperty("user.dir");
+		String directory = System.getProperty("user.dir") + "/logs/";
+		String name = "system-logger";
 		
 		m_log = Logger.getLogger(this.getClass());
 		
 		Logger rootLog = Logger.getRootLogger();
 		rootLog.setLevel(Level.INFO);
 		
+		//check for custom locations
+		if(!m_settings.getSetting("log.location").isEmpty())
+		{
+			directory = m_settings.getSetting("log.location");
+		}
+		
+		if(!m_settings.getSetting("log.name").isEmpty())
+		{
+			name = m_settings.getSetting("log.name");
+		}
+		
 		try{
 			//setup the console
 			rootLog.addAppender(new ConsoleAppender(new SimpleLayout(),ConsoleAppender.SYSTEM_OUT));
-			rootLog.addAppender(new DailyRollingFileAppender(new PatternLayout("%p %d{DATE} - %m %n"),directory + "/logs/system-logger.log","yyyy-ww"));
+			rootLog.addAppender(new DailyRollingFileAppender(new PatternLayout("%p %d{DATE} - %m %n"),directory + name + ".log","yyyy-ww"));
 		}
 		catch(Exception e)
 		{
 			m_log.error("Cannot write to log file");
 			e.printStackTrace();
 		}
+		
+		m_log.info("Log Path is: " + directory + name + ".log");
 	}
 	
 	private Image createImage(String path, String description) {

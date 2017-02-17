@@ -9,9 +9,9 @@ public class SystemLogger {
 	private boolean m_shouldRun = true;
 	private String m_user = null;
 	
-	public SystemLogger(){
+	public SystemLogger(SettingsReader settings){
 		m_log = Logger.getLogger(this.getClass());
-		m_settings = new SettingsReader("resources/config.xml");
+		m_settings = settings;
 		
 		//get the logged in user
 		m_user = System.getProperty("user.name");
