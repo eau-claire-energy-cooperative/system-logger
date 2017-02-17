@@ -26,7 +26,7 @@ public class SystemLogger {
 		Runtime.getRuntime().addShutdownHook(new Thread(){
 			@Override
 			public void run(){
-				m_log.info("shutting down");
+				m_log.info(m_user + " is logging off or shutting down");
 			}
 		});
 	}
