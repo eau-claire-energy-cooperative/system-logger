@@ -2,7 +2,6 @@ package com.ecec.rweber.system.logger;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.MenuItem;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
@@ -20,13 +19,15 @@ import org.apache.log4j.SimpleLayout;
 
 public class TrayService {
 	private Logger m_log = null;
+	private SystemLogger m_thread = null;
 	
 	//for the gui
 	private TrayIcon m_trayIcon = null;
-	private MenuItem m_isRunning = null;
 	
 	public TrayService(){
 		setupLogger();
+		
+		m_thread = new SystemLogger();
 	}
 	
 	public void run(){
@@ -46,6 +47,9 @@ public class TrayService {
             m_log.error("TrayIcon could not be added.");
             return;
         }
+        
+        //start the logging operation
+        m_thread.start();
 	}
 	
 	private void setupLogger(){

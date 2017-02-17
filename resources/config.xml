@@ -1,0 +1,9 @@
+<logger>
+	<!-- idle time is given in seconds -->
+	<idle_time>30</idle_time>
+	<!-- you can leave this blank for defaults -->
+	<log>
+		<name></name>
+		<location></location>
+	</log>
+</logger>
