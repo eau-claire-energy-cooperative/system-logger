@@ -39,6 +39,7 @@ public class WindowsAPI {
 				return Arrays.asList(new String[]{"cbSize","dwTime"});
 			}
 		}
+	    
 		/**
 		 * Retrieves the time of the last input event.
 		 * @see http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/userinput/keyboardinput/keyboardinputreference/keyboardinputfunctions/getlastinputinfo.asp

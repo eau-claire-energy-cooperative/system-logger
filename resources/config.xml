@@ -1,6 +1,10 @@
 <logger>
 	<!-- idle time is given in seconds -->
 	<idle_time>30</idle_time>
+	
+	<!-- away time is given in minutes -->
+	<away_time>1</away_time>
+	
 	<!-- you can leave this blank for defaults -->
 	<log>
 		<name></name>

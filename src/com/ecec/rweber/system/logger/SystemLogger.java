@@ -1,11 +1,6 @@
 package com.ecec.rweber.system.logger;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.log4j.Logger;
-
 import com.ecec.rweber.utils.SettingsReader;
 
 public class SystemLogger {
@@ -25,8 +20,15 @@ public class SystemLogger {
 	public void start(){
 		m_log.info("Start logging for " + m_user);
 		
-		Thread gatherState = new Thread(new GatherState());
+		Thread gatherState = new Thread(new GatherState(Integer.parseInt(m_settings.getSetting("idle_time")),Integer.parseInt(m_settings.getSetting("away_time"))));
 		gatherState.start();
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(){
+			@Override
+			public void run(){
+				m_log.info("shutting down");
+			}
+		});
 	}
 	
 	public void stop(){
@@ -34,29 +36,29 @@ public class SystemLogger {
 		m_shouldRun = false;
 	}
 	
-	private void logState(){
-		
-	}
-	
 	class GatherState implements Runnable {
+		private int m_idleTime = 0;
+		private int m_awayTime = 0;
 		private WorkstationState m_state = WorkstationState.UNKNOWN;
-		private DateFormat m_dateFormat = null;
 		
-		public GatherState(){
-			m_dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
+		public GatherState(int idle, int away){
+			m_idleTime = idle;
+			m_awayTime = away;
 		}
 		
 		@Override
 		public void run() {
+			m_log.info("using " + m_idleTime + " seconds for idle and " + m_awayTime + " minutes for away");
+			
 			while (m_shouldRun) {
 				int idleSec = WindowsAPI.getIdleTimeMillisWin32() / 1000;
 				WorkstationState newState =
-					idleSec < 30 ? WorkstationState.ONLINE :
-					idleSec > 5 * 60 ? WorkstationState.AWAY : WorkstationState.IDLE;
+					idleSec < m_idleTime ? WorkstationState.ONLINE :
+					idleSec > m_awayTime * 60 ? WorkstationState.AWAY : WorkstationState.IDLE;
 					
 				if (newState != m_state) {
 					m_state = newState;
-					m_log.info(m_dateFormat.format(new Date()) + " # " + m_state);
+					m_log.info(m_user + " is # " + m_state + " #");
 				}
 				try { Thread.sleep(1000); } catch (Exception ex) {}
 			}
