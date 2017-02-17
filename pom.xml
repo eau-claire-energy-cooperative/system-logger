@@ -47,7 +47,65 @@
   
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <resources>
+    	<resource>
+      		<directory>src/main/resources</directory>
+      		<filtering>false</filtering>
+    	</resource>
+    </resources>
     <plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-dependency-plugin</artifactId>
+			<executions>
+				<execution>
+				<id>copy-dependencies</id>
+				<phase>prepare-package</phase>
+				<goals>
+				<goal>copy-dependencies</goal>
+				</goals>
+				<configuration>
+					<outputDirectory>${project.build.directory}/jars</outputDirectory>
+					<excludeScope>provided</excludeScope>
+					<overWriteReleases>false</overWriteReleases>
+					<overWriteSnapshots>false</overWriteSnapshots>
+					<overWriteIfNewer>true</overWriteIfNewer>
+				</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<artifactId>maven-assembly-plugin</artifactId>
+        	<version>2.5.3</version>
+        	<configuration>
+          		<descriptor>src/assembly/tar.xml</descriptor>
+        	</configuration>
+        	<executions>
+          	<execution>
+            	<id>create-archive</id>
+            	<phase>package</phase>
+            	<goals>
+              		<goal>single</goal>
+            	</goals>
+          	</execution>
+        	</executions>
+      	</plugin>
+      <plugin>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-jar-plugin</artifactId>
+		    <configuration>
+		        <archive>
+		            <manifest>
+		                <addClasspath>true</addClasspath>
+		                <classpathPrefix>jars/</classpathPrefix>
+		                <!-- <mainClass>test.org.Cliente</mainClass> -->
+		            </manifest>
+		            <manifestEntries>
+		                <Main-Class>com.ecec.rweber.system.logger.TrayService</Main-Class>
+		            </manifestEntries>
+		        </archive>
+		    </configuration>
+		</plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.3</version>
