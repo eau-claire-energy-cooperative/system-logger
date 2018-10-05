@@ -1,6 +1,6 @@
 # System Logger
 
-This program runs a small Windows application that logs system events (logon, logoff, idle activity) based on some user defined parameters. The end result is a log that contains information on when the system was idle. This time is calculated based on how many seconds have elsapsed since the last input event recorded by Windows (mouse or keyboard). 
+This program runs a small Windows application that logs system events (logon, logoff, idle activity) based on some user defined parameters. The end result is a log that contains information on when the system was idle. This time is calculated based on how many seconds have elapsed since the last input event recorded by Windows (mouse or keyboard). 
 
 The program does run in the Windows system tray but does not contain any user options while running. 
 
@@ -31,3 +31,7 @@ INFO 05 Oct 2018 10:43:24,221 - rweber is # ONLINE #
 INFO 05 Oct 2018 10:44:45,252 - rweber is # IDLE # 
 INFO 05 Oct 2018 10:47:37,312 - rweber is # ONLINE # 
 ```
+
+### Acknowledgements
+
+Although also acknowledged in the WindowsAPI class it is worth noting that the IDLE time code as obtained/modified via a blog post at http://ochafik.com/p_98
