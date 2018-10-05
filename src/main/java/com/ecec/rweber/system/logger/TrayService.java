@@ -6,18 +6,14 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
-
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.SimpleLayout;
+import com.ecec.rweber.system.logger.util.SettingsReader;
 
-import com.ecec.rweber.utils.SettingsReader;
 
 public class TrayService {
 	private Logger m_log = null;

@@ -1,7 +1,9 @@
 package com.ecec.rweber.system.logger;
 
 import org.apache.log4j.Logger;
-import com.ecec.rweber.utils.SettingsReader;
+
+import com.ecec.rweber.system.logger.util.SettingsReader;
+
 
 public class SystemLogger {
 	private Logger m_log = null;
