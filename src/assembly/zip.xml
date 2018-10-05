@@ -1,16 +1,16 @@
 <assembly>
     <id>install</id>
     <formats>
-        <format>tar.gz</format>
+        <format>zip</format>
     </formats>
-    <fileSets>
-    	<fileSet>
-       		<directory>${project.build.directory}</directory>
+    <files>
+    	<file>
+       		<source>${project.build.directory}/${artifactId}-${version}.jar</source>
        		<outputDirectory>/</outputDirectory>
-       		<includes>
-           		<include>${artifactId}-${version}.jar</include>
-       		</includes>
-       	</fileSet>
+       		<destName>system-logger.jar</destName>
+       	</file>
+    </files>
+    <fileSets>
        	<fileSet>
        		<directory>${project.basedir}/resources</directory>
        		<outputDirectory>resources</outputDirectory>
